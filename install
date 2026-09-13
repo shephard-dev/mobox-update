@@ -1,4 +1,4 @@
-```bash
+
 #!/bin/bash
 
 rm ~/x
@@ -67,4 +67,3 @@ sync-package wine-11.17-staging-tkg-amd64-wow64.tar.xz
 ln -sf "$PREFIX/glibc/opt/scripts/mobox-update" "$PREFIX/bin/mobox-update"
 
 echo "To start - type \"mobox-update\""
-```
