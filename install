@@ -1,13 +1,11 @@
-cat << 'EOF' > ~/x
 #!/bin/bash
 
-rm -f ~/x
+rm ~/x
 
-pkg install termux-am -y &>/dev/null
 termux-setup-storage & sleep 4 &>/dev/null
 
 while true; do
-    if [ -d ~/storage/shared ]; then
+    if [ -e ~/storage ]; then
         break
     else
         echo "Storage permission denied"
@@ -15,10 +13,10 @@ while true; do
     sleep 3
 done
 
+echo "Installing packages for Termux..."
 apt-get clean
 apt-get update >/dev/null 2>&1
 apt-get -y --with-new-pkgs -o Dpkg::Options::="--force-confdef" upgrade >/dev/null 2>&1
-
 pkg install x11-repo -y &>/dev/null
 pkg install pulseaudio -y &>/dev/null
 pkg install xwayland -y &>/dev/null
@@ -30,44 +28,33 @@ pkg install p7zip -y &>/dev/null
 pkg install xorg-xrandr -y &>/dev/null
 pkg install ncurses-utils -y &>/dev/null
 pkg install hashdeep -y &>/dev/null
-pkg install termux-x11-nightly -y &>/dev/null
 
-if [ -e "$PREFIX/glibc" ]; then
+
+if [ -e $PREFIX/glibc ]; then
     echo -n "Removing previous glibc. Continue? (Y/n) "
-    read -r i
+    read i
     if [ "$i" = "Y" ] || [ "$i" = "y" ]; then
-        rm -rf "$PREFIX/glibc"
+        rm -rf $PREFIX/glibc
     else
-        exit 1
+        return 1
     fi
 fi
 
-PROJECT_ID="86414373"
+echo "Installing update for Mobox"
 
-function wget_git_q {
-    wget -q --retry-connrefused --tries=0 "$1" -O "$2"
+echo "Updating package manager..."
+mkdir -p $PREFIX/glibc/opt/package-manager/installed
+echo "PRIVATE_TOKEN=glpat-D1U1BJBHnY4Hyn50KrpJOmM6MQpvOjEKdTpwOTRudA8.01.170cww77j
+PROJECT_ID=86414373">$PREFIX/glibc/opt/package-manager/token
+. $PREFIX/glibc/opt/package-manager/token
+function wget-git-q {
+    wget -q --retry-connrefused --tries=0 --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ID/repository/files/$1/raw?ref=main" -O $2
     return $?
 }
-
-mkdir -p "$PREFIX/glibc/opt/package-manager/installed"
-
-echo "PROJECT_ID=$PROJECT_ID" > "$PREFIX/glibc/opt/package-manager/token"
-. "$PREFIX/glibc/opt/package-manager/token"
-
-# Исправлен URL: теперь скачивание идет из официального репозитория через API GitLab по ID проекта
-wget_git_q "https://gitlab.com{PROJECT_ID}/repository/files/package-manager/raw?ref=main" "$PREFIX/glibc/opt/package-manager/package-manager" || {
-    echo "Download failed"
-    exit 1
-}
-
-. "$PREFIX/glibc/opt/package-manager/package-manager"
-
+wget-git-q "package-manager" "$PREFIX/glibc/opt/package-manager/package-manager"
+. $PREFIX/glibc/opt/package-manager/package-manager
 sync-all
 sync-package wine-11.17-staging-tkg-amd64-wow64.tar.xz
-
-ln -sf "$PREFIX/glibc/opt/scripts/mobox-update" "$PREFIX/bin/mobox-update"
+ln -sf $PREFIX/glibc/opt/scripts/mobox-update $PREFIX/bin/mobox-update
 
 echo "To start - type \"mobox-update\""
-EOF
-chmod +x ~/x
-bash ~/x
