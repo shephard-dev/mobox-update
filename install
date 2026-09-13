@@ -1,11 +1,9 @@
 #!/bin/bash
 
-rm ~/x
-
 termux-setup-storage & sleep 4 &>/dev/null
 
 while true; do
-    if [ -e ~/storage ]; then
+    if [ -d "$HOME/storage" ]; then
         break
     else
         echo "Storage permission denied"
@@ -29,32 +27,35 @@ pkg install xorg-xrandr -y &>/dev/null
 pkg install ncurses-utils -y &>/dev/null
 pkg install hashdeep -y &>/dev/null
 
-
-if [ -e $PREFIX/glibc ]; then
+if [ -e "$PREFIX/glibc" ]; then
     echo -n "Removing previous glibc. Continue? (Y/n) "
-    read i
-    if [ "$i" = "Y" ] || [ "$i" = "y" ]; then
-        rm -rf $PREFIX/glibc
+    read -r i
+    if [ "$i" = "Y" ] || [ "$i" = "y" ] || [ -z "$i" ]; then
+        rm -rf "$PREFIX/glibc"
     else
-        return 1
+        exit 1
     fi
 fi
 
 echo "Installing update for Mobox"
-
 echo "Updating package manager..."
-mkdir -p $PREFIX/glibc/opt/package-manager/installed
-echo "PRIVATE_TOKEN=glpat-D1U1BJBHnY4Hyn50KrpJOmM6MQpvOjEKdTpwOTRudA8.01.170cww77j
-PROJECT_ID=86414373">$PREFIX/glibc/opt/package-manager/token
-. $PREFIX/glibc/opt/package-manager/token
-function wget-git-q {
-    wget -q --retry-connrefused --tries=0 --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "https://gitlab.com/api/v4/projects/$PROJECT_ID/repository/files/$1/raw?ref=main" -O $2
+mkdir -p "$PREFIX/glibc/opt/package-manager/installed"
+
+echo "PRIVATE_TOKEN=glpat-D1U1BJBHnY4Hyn50KrpJOmM6MQpvOjEKdTpwOTRudA8.01.170cww77j" > "$PREFIX/glibc/opt/package-manager/token"
+echo "PROJECT_ID=86414373" >> "$PREFIX/glibc/opt/package-manager/token"
+
+. "$PREFIX/glibc/opt/package-manager/token"
+
+wget-git-q() {
+    wget -q --retry-connrefused --tries=0 --header "PRIVATE-TOKEN: $PRIVATE_TOKEN" "https://gitlab.com" -O "$2"
     return $?
 }
+
 wget-git-q "package-manager" "$PREFIX/glibc/opt/package-manager/package-manager"
-. $PREFIX/glibc/opt/package-manager/package-manager
+
+. "$PREFIX/glibc/opt/package-manager/package-manager"
 sync-all
 sync-package wine-11.17-staging-tkg-amd64-wow64.tar.xz
-ln -sf $PREFIX/glibc/opt/scripts/mobox-update $PREFIX/bin/mobox-update
+ln -sf "$PREFIX/glibc/opt/scripts/mobox-update" "$PREFIX/bin/mobox-update"
 
 echo "To start - type \"mobox-update\""
