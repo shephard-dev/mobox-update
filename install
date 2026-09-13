@@ -1,7 +1,7 @@
-
+cat << 'EOF' > ~/x
 #!/bin/bash
 
-rm ~/x
+rm -f ~/x
 
 pkg install termux-am -y &>/dev/null
 termux-setup-storage & sleep 4 &>/dev/null
@@ -44,7 +44,7 @@ fi
 
 PROJECT_ID="86414373"
 
-function wget-git-q {
+function wget_git_q {
     wget -q --retry-connrefused --tries=0 "$1" -O "$2"
     return $?
 }
@@ -54,7 +54,8 @@ mkdir -p "$PREFIX/glibc/opt/package-manager/installed"
 echo "PROJECT_ID=$PROJECT_ID" > "$PREFIX/glibc/opt/package-manager/token"
 . "$PREFIX/glibc/opt/package-manager/token"
 
-wget-git-q "https://gitlab.com" "$PREFIX/glibc/opt/package-manager/package-manager" || {
+# Исправлен URL: теперь скачивание идет из официального репозитория через API GitLab по ID проекта
+wget_git_q "https://gitlab.com{PROJECT_ID}/repository/files/package-manager/raw?ref=main" "$PREFIX/glibc/opt/package-manager/package-manager" || {
     echo "Download failed"
     exit 1
 }
@@ -67,3 +68,6 @@ sync-package wine-11.17-staging-tkg-amd64-wow64.tar.xz
 ln -sf "$PREFIX/glibc/opt/scripts/mobox-update" "$PREFIX/bin/mobox-update"
 
 echo "To start - type \"mobox-update\""
+EOF
+chmod +x ~/x
+bash ~/x
