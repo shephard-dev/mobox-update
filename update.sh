@@ -31,6 +31,9 @@ wget -q opt.tar.xz "https//:github.com/shephard-dev/mobox-update/releases/downlo
 tar -xf opt.tar.xz -C $PREFIX/glibc
 rm -f opt.tar.xz
 
+cd $PREFIX/glibc
+wget -q wine-wow64.tar.xz "https://github.com/shephard-dev/mobox-update/releases/download/wine/wine-wow64.tar.xz"
+tar -xf wine wow64.tar.xz -C $PREFIX/glibc
 sleep 1
 clear
 
