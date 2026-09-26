@@ -1,18 +1,12 @@
 <div align="center">
 
-# рџ“¦ mobox-update
+# mobox-update
 
 A simple and efficient script to update your existing Mobox installation
 
-[![GitHub repo](https://img.shields.io/badge/GitHub-shephard--dev%2Fmobox--update-blue?style=for-the-badge&logo=github)](https://github.com/shephard-dev/mobox-update)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord)](https://discord.gg/ZAQnZzbCXq)
-[![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)]()
-
-</div>
-
 ---
 
-## рџ’Ў Why mobox-update?
+## Why mobox-update?
 
 Originally, **Mobox** was created and maintained by **olegos2**, but the project has unfortunately been abandoned and archived by the author. Because of this, getting direct updates or maintenance through official channels became impossible. 
 
@@ -20,13 +14,13 @@ However, the core project files can still be downloaded and utilized, and **mobo
 
 ---
 
-## вљ пёЏ Important Note Before You Start
+## Important Note Before You Start
 
 Before running any update scripts, please ensure that you have installed the **Mobox WOW64** version. Standard or non-WOW64 installations may encounter compatibility issues or fail to update correctly with modern dependencies.
 
 ---
 
-## рџљЂ Installation & Usage Guide
+## Installation & Usage Guide
 
 Follow these steps in order to set up and update your Mobox environment.
 
@@ -51,13 +45,13 @@ wget -qO- https://raw.githubusercontent.com/shephard-dev/mobox-update/main/updat
 
 ---
 
-## рџ’¬ Community & Support
+## Community & Support
 Join the community for support, discussions, and updates:
 * [MishkaKolos Discord](https://discord.gg/ZAQnZzbCXq)
 
 ---
 
-## рџ› пёЏ Third party applications
+## Third party applications
 
 [glibc-packages](https://github.com/termux-pacman/glibc-packages)
 
