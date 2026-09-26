@@ -27,7 +27,7 @@ sleep 1
 echo "Installing update for mobox..."
 
 cd $PREFIX
-wget -0 opt.tar.xz "https//:github.com/shephard-dev/mobox-update/releases/download/update/xz
+wget -q opt.tar.xz "https//:github.com/shephard-dev/mobox-update/releases/download/update/opt.tar.xz"
 tar -xf opt.tar.xz -C $PREFIX/glibc
 rm -f opt.tar.xz
 
