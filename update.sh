@@ -13,9 +13,12 @@ sleep 2
 clear
 
 echo "Installing required packages..."
-pkg install tar -y
-pkg install wget -y
-pkg install xz-utils -y
+pkg install -y tar 
+pkg install -y wget 
+pkg install -y xz-utils 
+apt install -y unzip
+apt install -y mangohud-glibc
+apt install -y glibc-repo
 
 sleep 1
 clear
