@@ -42,6 +42,7 @@ sleep 1
 clear
 
 chmod +x $PREFIX/glibc/opt/scripts/mobox
+ln -s $PREFIX/glibc/opt/scripts/mobox $PREFIX/bin/mobox
 
 echo "Update installed sucesfully. To start - type mobox."
 
