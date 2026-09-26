@@ -30,12 +30,12 @@ sleep 1
 echo "Installing update for mobox..."
 
 cd $PREFIX
-wget -q opt.tar.xz "https//:github.com/shephard-dev/mobox-update/releases/download/update/opt.tar.xz"
+wget -q --show-progress -O $PREFIX "https//:github.com/shephard-dev/mobox-update/releases/download/update/opt.tar.xz"
 tar -xf opt.tar.xz -C $PREFIX/glibc
 rm -f opt.tar.xz
 
 cd $PREFIX/glibc
-wget -q wine-wow64.tar.xz "https://github.com/shephard-dev/mobox-update/releases/download/wine/wine-wow64.tar.xz"
+wget -q --show-progress -0 $PREFIX "https://github.com/shephard-dev/mobox-update/releases/download/wine/wine-wow64.tar.xz"
 tar -xf wine wow64.tar.xz -C $PREFIX/glibc
 sleep 1
 clear
